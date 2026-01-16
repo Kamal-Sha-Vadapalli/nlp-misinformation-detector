@@ -52,12 +52,12 @@ def analyze():
     
 
    
-    if credibility_score >= 30:
-        risk = "Low Risk (High Confidence)"
-    elif credibility_score >= 20:
-        risk = "Moderate Risk (Medium Confidence)"
+    if credibility_score >= 70:
+        risk = "Low Risk (High Credibility)"
+    elif credibility_score >= 40:
+        risk = "Moderate Risk (Medium Credibility)"
     else:
-        risk = "High Risk (Low Confidence)"
+        risk = "High Risk (Low Credibility)"
 
 
     return jsonify({
