@@ -25,7 +25,29 @@ def load_data():
     except FileNotFoundError as e:
         print(f"Error loading data: {e}")
         return None
-def train_model(df):
+    
+import joblib
+
+def save_model(model, vectorizer, model_path="model/model.pkl", vectorizer_path="model/vectorizer.pkl"):
+    print(f"Saving model to {model_path} and vectorizer to {vectorizer_path}")
+    joblib.dump(model, model_path)
+    joblib.dump(vectorizer, vectorizer_path)
+
+
+def load_saved_model(model_path="model/model.pkl", vectorizer_path="model/vectorizer.pkl"): #windows users fuckin change the paths to \
+    print("loading pre-trained model")
+    if os.path.exists(model_path) and os.path.exists(vectorizer_path):
+        model = joblib.load(model_path)
+        vectorizer = joblib.load(vectorizer_path)
+        return model, vectorizer
+    else:
+        print("model not found xd")
+
+
+
+
+
+def train_model(df, save=False):
     print('Splitting data')
     # we will use the 'text' column for classification
     X = df['text']
@@ -53,12 +75,15 @@ def train_model(df):
     
     print("\nClassification Report:")
     print(classification_report(y_test, y_pred))
+
+    if save:
+        save_model(pac, tfidf_vectorizer)
     
     return pac, tfidf_vectorizer
 
 if __name__ == "__main__":
     df = load_data()
     if df is not None:
-        model, vectorizer = train_model(df)
-        print("Pipeline execution completed successfully.")
+        model, vectorizer = train_model(df, save=True)
+        print("Pipeline execution completed successfully. Model saved as well.")
 

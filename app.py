@@ -3,17 +3,25 @@ from flask import Flask, request, jsonify
 import numpy as np
 
 
-from main import load_data, train_model
+from main import load_data, train_model, load_saved_model, save_model
+
+
 
 app = Flask(__name__)
 
 
 print("Initializing model...")
-df = load_data()
-if df is None:
-    raise RuntimeError("Dataset not found. Cannot start API.")
 
-model, vectorizer = train_model(df)
+#first check if model in model xd
+model, vectorizer = load_saved_model()
+
+if model is None or vectorizer is None:
+    print("no model found")
+    df = load_data()
+    if df is None:
+        raise RuntimeError("Dataset not found. Cannot start API.")
+
+model, vectorizer = train_model(df, save=True)
 print("Model loaded successfully.")
 
 
