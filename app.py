@@ -14,6 +14,18 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/docs", methods=["GET"])
+def docs():
+    return render_template("docs.html")
+
+@app.route("/api", methods=["GET"])
+def api():
+    return render_template("api.html")
+
+@app.route("/about", methods=["GET"])
+def about():
+    return render_template("about.html")
+
 
 
 
